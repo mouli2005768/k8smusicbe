@@ -18,13 +18,23 @@ public class CorsConfig {
                 // ✅ Allow all API endpoints
                 registry.addMapping("/api/**")
                         .allowedOrigins(
-                                "http://localhost:5173", // Vite dev server
-                                "http://localhost:8080" ,
-                                "http://localhost:3000"// Tomcat/Spring Boot
+                                // Local development
+                                "http://localhost:5173",
+                                "http://localhost:3000",
+                                "http://localhost:8082",
+
+                                // Kubernetes frontend
+                                "http://frontend:8082",
+                                "http://frontend",
+                                "http://localhost:30082",
+                                "http://127.0.0.1:30082",
+
+                                // For production NodePort access
+                                "*"
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
-                
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(false);
                 // ✅ Allow static song files
                 registry.addMapping("/songs/**")
                         .allowedOrigins("http://localhost:5173")
